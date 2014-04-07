@@ -40,8 +40,8 @@ unless File.exists?("#{activemq_home}/bin/activemq")
 end
 
 file "#{activemq_home}/bin/activemq" do
-  owner 'root'
-  group 'root'
+  owner node['activemq']['user']
+  group node['activemq']['group']
   mode  '0755'
 end
 
@@ -55,15 +55,15 @@ end
 template "#{activemq_home}/conf/activemq.xml" do
   source   'activemq.xml.erb'
   mode     '0755'
-  owner    'root'
-  group    'root'
+  owner node['activemq']['user']
+  group node['activemq']['group']
   notifies :restart, 'service[activemq]'
   only_if  { node['activemq']['use_default_config'] }
 end
 
 service 'activemq' do
   supports :restart => true, :status => true
-  action   [:enable, :start]
+  action   [:enable]
 end
 
 # symlink so the default wrapper.conf can find the native wrapper library
