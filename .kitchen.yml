@@ -10,6 +10,8 @@ platforms:
     run_list:
       - recipe[apt]
   - name: centos-6.4
+    busser:
+      sudo: true
 
 suites:
   - name: default
